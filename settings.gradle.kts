@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "chat_bot_reycler_view"
 include(":app")
- 
+include(":chat_bot_recyclerView")
