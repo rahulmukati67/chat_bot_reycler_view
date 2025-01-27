@@ -1,4 +1,126 @@
 package com.example.chat_bot_recyclerview
 
-class ChatBotRecyclerView {
+import android.content.Context
+import android.util.AttributeSet
+import android.view.LayoutInflater
+import android.widget.Button
+import android.widget.EditText
+import androidx.core.widget.doAfterTextChanged
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import android.widget.LinearLayout
+import com.example.chat_bot_recyclerview.adapter.ChatAdapter
+import com.example.chat_bot_recyclerview.model.ChatMessage
+
+class ChatBotRecyclerView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : LinearLayout(context, attrs, defStyleAttr) {
+
+    private val recyclerView: RecyclerView
+    private val editTextMessage: EditText
+    private val buttonSend: Button
+    private val chatAdapter: ChatAdapter
+    private val chatMessages: MutableList<ChatMessage> = mutableListOf()
+
+    // Listener for handling received messages
+    private var messageReceivedListener: OnMessageReceivedListener? = null
+
+    init {
+        orientation = VERTICAL
+        LayoutInflater.from(context).inflate(R.layout.view_chat_bot_recyclerview, this, true)
+
+        recyclerView = findViewById(R.id.recycler_view_chat)
+        editTextMessage = findViewById(R.id.edit_text_message)
+        buttonSend = findViewById(R.id.button_send)
+
+        chatAdapter = ChatAdapter(chatMessages)
+        recyclerView.layoutManager = LinearLayoutManager(context).apply {
+            stackFromEnd = true
+        }
+        recyclerView.adapter = chatAdapter
+
+        // Handle send button click
+        buttonSend.setOnClickListener {
+            sendMessage()
+        }
+
+        // Optional: Disable send button when input is empty
+        editTextMessage.doAfterTextChanged { text ->
+            buttonSend.isEnabled = !text.isNullOrBlank()
+        }
+
+//         Handle custom attributes
+        attrs?.let {
+            val typedArray = context.obtainStyledAttributes(it, R.styleable.ChatBotRecyclerView, 0, 0)
+            val sendButtonText = typedArray.getString(R.styleable.ChatBotRecyclerView_sendButtonText)
+            val inputHint = typedArray.getString(R.styleable.ChatBotRecyclerView_inputHint)
+            sendButtonText?.let { text -> buttonSend.text = text }
+            inputHint?.let { hint -> editTextMessage.hint = hint }
+            typedArray.recycle()
+        }
+
+        // Set a default message received listener (simple echo)
+        setOnMessageReceivedListener(object : OnMessageReceivedListener {
+            override fun onMessageSent(message: String) {
+                // Simulate a response after a delay
+                recyclerView.postDelayed({
+                    val response = generateResponse(message)
+                    receiveMessage(response)
+                }, 1000) // 1-second delay
+            }
+        })
+    }
+
+    /**
+     * Sends a message typed by the user.
+     */
+    private fun sendMessage() {
+        val messageText = editTextMessage.text.toString().trim()
+        if (messageText.isNotEmpty()) {
+            val message = ChatMessage(messageText, ChatMessage.Type.SENT)
+            chatAdapter.addMessage(message)
+            recyclerView.scrollToPosition(chatAdapter.itemCount - 1)
+            editTextMessage.text.clear()
+
+            // Notify listener for response
+            messageReceivedListener?.onMessageSent(messageText)
+        }
+    }
+
+    /**
+     * Adds a received message to the chat.
+     * @param messageText The message text.
+     */
+    fun receiveMessage(messageText: String) {
+        val message = ChatMessage(messageText, ChatMessage.Type.RECEIVED)
+        chatAdapter.addMessage(message)
+        recyclerView.scrollToPosition(chatAdapter.itemCount - 1)
+    }
+
+    /**
+     * Sets a listener to handle message sending events.
+     * @param listener The listener to set.
+     */
+    fun setOnMessageReceivedListener(listener: OnMessageReceivedListener) {
+        this.messageReceivedListener = listener
+    }
+
+    /**
+     * Generates a simple echo response.
+     * @param message The received message.
+     * @return The response message.
+     */
+    private fun generateResponse(message: String): String {
+        // For demonstration, simply echo the message
+        return "Echo: $message"
+    }
+
+    /**
+     * Interface for receiving message send events.
+     */
+    interface OnMessageReceivedListener {
+        fun onMessageSent(message: String)
+    }
 }
