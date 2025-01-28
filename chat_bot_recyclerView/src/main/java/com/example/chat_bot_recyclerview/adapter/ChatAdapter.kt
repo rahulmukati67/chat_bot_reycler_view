@@ -57,7 +57,7 @@ class ChatAdapter(private val chatMessages: MutableList<ChatMessage>) :
 
     // ViewHolder for Sent Messages
     class SentMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val messageBody: TextView = itemView.findViewById(R.id.text_message_body)
+        private val messageBody: TextView = itemView.findViewById(R.id.tvMessageReceive)
 
         fun bind(message: ChatMessage) {
             messageBody.text = message.message
@@ -66,7 +66,7 @@ class ChatAdapter(private val chatMessages: MutableList<ChatMessage>) :
 
     // ViewHolder for Received Messages
     class ReceivedMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val messageBody: TextView = itemView.findViewById(R.id.text_message_body)
+        private val messageBody: TextView = itemView.findViewById(R.id.tvMessageReceive)
 
         fun bind(message: ChatMessage) {
             messageBody.text = message.message

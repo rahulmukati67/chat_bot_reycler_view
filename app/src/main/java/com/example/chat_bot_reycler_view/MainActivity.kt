@@ -3,10 +3,7 @@ package com.example.chat_bot_reycler_view
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.chat_bot_recyclerview.ChatBotRecyclerView
-import com.example.chat_bot_recyclerview.adapter.PredefinedQuestionsAdapter
 import com.example.chat_bot_recyclerview.model.ChatbotData
 import com.example.chat_bot_recyclerview.model.SampleQuestions
 
@@ -24,7 +21,6 @@ class MainActivity : AppCompatActivity() {
                 ChatbotData("Sure, I can help with that!", "Can you assist me?")
             )
         )
-
         chatBotRecyclerView.addSampleQuestions(sampleQuestions)
 
 //        chatBotRecyclerView.setOnMessageReceivedListener(object : ChatBotRecyclerView.OnMessageReceivedListener {

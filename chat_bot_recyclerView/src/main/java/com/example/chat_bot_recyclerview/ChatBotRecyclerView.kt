@@ -54,16 +54,6 @@ class ChatBotRecyclerView @JvmOverloads constructor(
             buttonSend.isEnabled = !text.isNullOrBlank()
         }
 
-////         Handle custom attributes
-//        attrs?.let {
-//            val typedArray = context.obtainStyledAttributes(it, R.styleable.ChatBotRecyclerView, 0, 0)
-//            val sendButtonText = typedArray.getString(R.styleable.ChatBotRecyclerView_sendButtonText)
-//            val inputHint = typedArray.getString(R.styleable.ChatBotRecyclerView_inputHint)
-//            sendButtonText?.let { text -> buttonSend.text = text }
-//            inputHint?.let { hint -> editTextMessage.hint = hint }
-//            typedArray.recycle()
-//        }
-
         // Set a default message received listener (simple echo)
         setOnMessageReceivedListener(object : OnMessageReceivedListener {
             override fun onMessageSent(message: String) {
@@ -120,8 +110,8 @@ class ChatBotRecyclerView @JvmOverloads constructor(
             val predefinedAdapter =
                 PredefinedQuestionsAdapter(sampleQuestions) { selectedQuestion ->
                     // Handle question click
-                    sendMessage("User: $selectedQuestion")
-                    receiveMessage("Bot: ${sampleQuestions.chatbotData.find { it.question == selectedQuestion }?.answer}")
+                    sendMessage(selectedQuestion)
+                    receiveMessage("${sampleQuestions.chatbotData.find { it.question == selectedQuestion }?.answer}")
                 }
 
             val rvPredefinedQuestions = findViewById<RecyclerView>(R.id.rvPredefinedQuestion)
