@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,7 +21,7 @@ class ChatBotRecyclerView @JvmOverloads constructor(
 
     private val recyclerView: RecyclerView
     private val editTextMessage: EditText
-    private val buttonSend: Button
+    private val buttonSend: ImageButton
     private val chatAdapter: ChatAdapter
     private val chatMessages: MutableList<ChatMessage> = mutableListOf()
 
@@ -51,15 +52,15 @@ class ChatBotRecyclerView @JvmOverloads constructor(
             buttonSend.isEnabled = !text.isNullOrBlank()
         }
 
-//         Handle custom attributes
-        attrs?.let {
-            val typedArray = context.obtainStyledAttributes(it, R.styleable.ChatBotRecyclerView, 0, 0)
-            val sendButtonText = typedArray.getString(R.styleable.ChatBotRecyclerView_sendButtonText)
-            val inputHint = typedArray.getString(R.styleable.ChatBotRecyclerView_inputHint)
-            sendButtonText?.let { text -> buttonSend.text = text }
-            inputHint?.let { hint -> editTextMessage.hint = hint }
-            typedArray.recycle()
-        }
+////         Handle custom attributes
+//        attrs?.let {
+//            val typedArray = context.obtainStyledAttributes(it, R.styleable.ChatBotRecyclerView, 0, 0)
+//            val sendButtonText = typedArray.getString(R.styleable.ChatBotRecyclerView_sendButtonText)
+//            val inputHint = typedArray.getString(R.styleable.ChatBotRecyclerView_inputHint)
+//            sendButtonText?.let { text -> buttonSend.text = text }
+//            inputHint?.let { hint -> editTextMessage.hint = hint }
+//            typedArray.recycle()
+//        }
 
         // Set a default message received listener (simple echo)
         setOnMessageReceivedListener(object : OnMessageReceivedListener {

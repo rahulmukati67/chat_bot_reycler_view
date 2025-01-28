@@ -24,16 +24,20 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Type a message"
+            android:hint="Ask a question here"
             android:padding="10dp"
+            android:background="@drawable/roung_corner"
             android:inputType="textMultiLine"
             android:maxLines="4"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/button_send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="15dp"
             android:text="Send"
+            android:background="@drawable/roung_bg"
+            android:src="@drawable/baseline_send_24"
             android:layout_marginStart="8dp"/>
     </LinearLayout>
 

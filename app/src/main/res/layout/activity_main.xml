@@ -7,11 +7,13 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
     <com.example.chat_bot_recyclerview.ChatBotRecyclerView
         android:id="@+id/chat_bot_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         cb:inputHint="Type your message here"
+        android:layout_margin="20dp"
         cb:layout_constraintBottom_toBottomOf="parent"
         cb:layout_constraintEnd_toEndOf="parent"
         cb:layout_constraintStart_toStartOf="parent"

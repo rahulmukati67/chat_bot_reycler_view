@@ -12,7 +12,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val chatBotRecyclerView = findViewById<ChatBotRecyclerView>(R.id.chat_bot_recyclerview)
-
-
+//        chatBotRecyclerView.setOnMessageReceivedListener(object : ChatBotRecyclerView.OnMessageReceivedListener {
+//            override fun onMessageSent(message: String) {
+//                // Handle message sent, e.g., send to chatbot API and receive response
+//                // For demonstration, we have an echo response
+//                // To customize, override the default behavior or set a different listener
+//            }
+//        })
     }
 }
