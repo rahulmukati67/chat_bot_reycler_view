@@ -5,6 +5,7 @@
     <color name="light_pink">#D7CDCB</color>
     <color name="light_gray">#909090</color>
     <color name="light_purple">#D0BAF6</color>
-    <color name="gray">#6C6767</color>
+    <color name="gray">#4B4A4A</color>
     <color name="pink">#E91E63</color>
+    <color name="light_blue">#E4EEFB</color>
 </resources>

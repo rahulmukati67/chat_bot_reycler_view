@@ -27,20 +27,6 @@ class MainActivity : AppCompatActivity() {
 
         chatBotRecyclerView.addSampleQuestions(sampleQuestions)
 
-        val predefinedAdapter =
-            PredefinedQuestionsAdapter(sampleQuestions) { selectedQuestion ->
-                // Handle question click
-                chatBotRecyclerView.sendMessage("User: $selectedQuestion")
-                chatBotRecyclerView.receiveMessage("Bot: ${sampleQuestions.chatbotData.find { it.question == selectedQuestion }?.answer}")
-            }
-
-        val rvPredefinedQuestions = chatBotRecyclerView.findViewById<RecyclerView>(
-            com.example.chat_bot_recyclerview.R.id.rvPredefinedQuestion
-        )
-        rvPredefinedQuestions.layoutManager = LinearLayoutManager(this)
-        rvPredefinedQuestions.adapter = predefinedAdapter
-
-
 //        chatBotRecyclerView.setOnMessageReceivedListener(object : ChatBotRecyclerView.OnMessageReceivedListener {
 //            override fun onMessageSent(message: String) {
 //                // Handle message sent, e.g., send to chatbot API and receive response

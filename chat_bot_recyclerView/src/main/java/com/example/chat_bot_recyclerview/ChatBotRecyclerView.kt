@@ -10,6 +10,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chat_bot_recyclerview.adapter.ChatAdapter
+import com.example.chat_bot_recyclerview.adapter.PredefinedQuestionsAdapter
 import com.example.chat_bot_recyclerview.model.ChatMessage
 import com.example.chat_bot_recyclerview.model.SampleQuestions
 
@@ -24,7 +25,6 @@ class ChatBotRecyclerView @JvmOverloads constructor(
     private val buttonSend: ImageButton
     private val chatAdapter: ChatAdapter
     private val chatMessages: MutableList<ChatMessage> = mutableListOf()
-    private val predefinedQuestions: MutableMap<String, String> = mutableMapOf()
 
 
     // Listener for handling received messages
@@ -115,8 +115,19 @@ class ChatBotRecyclerView @JvmOverloads constructor(
      * @param sampleQuestions The sample questions to add.
      */
     fun addSampleQuestions(sampleQuestions: SampleQuestions) {
-        for (data in sampleQuestions.chatbotData) {
-            predefinedQuestions[data.question] = data.answer
+
+        if (sampleQuestions.chatbotData.isNotEmpty()) {
+            val predefinedAdapter =
+                PredefinedQuestionsAdapter(sampleQuestions) { selectedQuestion ->
+                    // Handle question click
+                    sendMessage("User: $selectedQuestion")
+                    receiveMessage("Bot: ${sampleQuestions.chatbotData.find { it.question == selectedQuestion }?.answer}")
+                }
+
+            val rvPredefinedQuestions = findViewById<RecyclerView>(R.id.rvPredefinedQuestion)
+
+            rvPredefinedQuestions.layoutManager = LinearLayoutManager(context)
+            rvPredefinedQuestions.adapter = predefinedAdapter
         }
     }
 
