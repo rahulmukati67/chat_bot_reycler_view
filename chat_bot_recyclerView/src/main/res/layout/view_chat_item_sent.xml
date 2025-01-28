@@ -13,6 +13,6 @@
         android:textColor="@color/gray"
         android:textSize="20sp"
         android:background="@drawable/chat_sent_bg"
-        android:padding="18dp"
+        android:padding="13dp"
         android:text="Sent message" />
 </LinearLayout>
