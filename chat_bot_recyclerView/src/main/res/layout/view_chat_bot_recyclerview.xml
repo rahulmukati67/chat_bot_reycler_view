@@ -1,54 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:fillViewport="true">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="20dp"
-        android:gravity="center"
-        android:text="Hi there👋\nHow can i help?"
-        android:textColor="@color/black"
-        android:textSize="36sp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_chat"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:clipToPadding="false"
-        android:padding="8dp" />
+        android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp">
-
-        <EditText
-            android:id="@+id/edit_text_message"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/roung_corner"
-            android:hint="Ask a question here"
-            android:inputType="textMultiLine"
-            android:maxLines="4"
-            android:padding="10dp" />
-
-        <ImageButton
-            android:id="@+id/button_send"
+        <!-- Header Text -->
+        <TextView
+            android:id="@+id/tvHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:background="@drawable/roung_bg"
-            android:padding="15dp"
-            android:src="@drawable/baseline_send_24"
-            android:text="Send" />
-    </LinearLayout>
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:text="Hi there👋\nHow can I help?"
+            android:textColor="@color/black"
+            android:textSize="36sp"
+            android:textAlignment="center" />
 
-</LinearLayout>
+        <!-- Predefined Questions RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPredefinedQuestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvHeader"
+            android:clipToPadding="true"
+            android:nestedScrollingEnabled="false"
+            android:overScrollMode="never"
+            android:padding="8dp" />
+
+        <!-- Chat Messages RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvChatMessage"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_below="@id/rvPredefinedQuestion"
+            android:layout_above="@id/llSendMessage"
+            android:clipToPadding="true"
+            android:nestedScrollingEnabled="false"
+            android:overScrollMode="never"
+            android:padding="8dp" />
+
+        <!-- Send Message Layout -->
+        <LinearLayout
+            android:id="@+id/llSendMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <EditText
+                android:id="@+id/etMessage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/round_corner"
+                android:hint="Ask a question here"
+                android:inputType="textMultiLine"
+                android:maxLines="4"
+                android:padding="10dp" />
+
+            <ImageButton
+                android:id="@+id/btnSendMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/round_bg"
+                android:padding="15dp"
+                android:src="@drawable/baseline_send_24" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</ScrollView>

@@ -3,15 +3,15 @@ package com.example.chat_bot_recyclerview
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.widget.LinearLayout
 import com.example.chat_bot_recyclerview.adapter.ChatAdapter
 import com.example.chat_bot_recyclerview.model.ChatMessage
+import com.example.chat_bot_recyclerview.model.SampleQuestions
 
 class ChatBotRecyclerView @JvmOverloads constructor(
     context: Context,
@@ -24,6 +24,8 @@ class ChatBotRecyclerView @JvmOverloads constructor(
     private val buttonSend: ImageButton
     private val chatAdapter: ChatAdapter
     private val chatMessages: MutableList<ChatMessage> = mutableListOf()
+    private val predefinedQuestions: MutableMap<String, String> = mutableMapOf()
+
 
     // Listener for handling received messages
     private var messageReceivedListener: OnMessageReceivedListener? = null
@@ -32,9 +34,9 @@ class ChatBotRecyclerView @JvmOverloads constructor(
         orientation = VERTICAL
         LayoutInflater.from(context).inflate(R.layout.view_chat_bot_recyclerview, this, true)
 
-        recyclerView = findViewById(R.id.recycler_view_chat)
-        editTextMessage = findViewById(R.id.edit_text_message)
-        buttonSend = findViewById(R.id.button_send)
+        recyclerView = findViewById(R.id.rvChatMessage)
+        editTextMessage = findViewById(R.id.etMessage)
+        buttonSend = findViewById(R.id.btnSendMessage)
 
         chatAdapter = ChatAdapter(chatMessages)
         recyclerView.layoutManager = LinearLayoutManager(context).apply {
@@ -44,7 +46,7 @@ class ChatBotRecyclerView @JvmOverloads constructor(
 
         // Handle send button click
         buttonSend.setOnClickListener {
-            sendMessage()
+            sendMessage("")
         }
 
         // Optional: Disable send button when input is empty
@@ -77,9 +79,10 @@ class ChatBotRecyclerView @JvmOverloads constructor(
     /**
      * Sends a message typed by the user.
      */
-    private fun sendMessage() {
-        val messageText = editTextMessage.text.toString().trim()
-        if (messageText.isNotEmpty()) {
+    fun sendMessage(messageText: String) {
+
+        val messageTextFromTextView = editTextMessage.text.toString().trim()
+        if (messageTextFromTextView.isNotEmpty()) {
             val message = ChatMessage(messageText, ChatMessage.Type.SENT)
             chatAdapter.addMessage(message)
             recyclerView.scrollToPosition(chatAdapter.itemCount - 1)
@@ -87,6 +90,11 @@ class ChatBotRecyclerView @JvmOverloads constructor(
 
             // Notify listener for response
             messageReceivedListener?.onMessageSent(messageText)
+        } else if (messageText.isNotEmpty()) {
+            val message = ChatMessage(messageText, ChatMessage.Type.SENT)
+            chatAdapter.addMessage(message)
+            recyclerView.scrollToPosition(chatAdapter.itemCount - 1)
+            editTextMessage.text.clear()
         }
     }
 
@@ -98,6 +106,16 @@ class ChatBotRecyclerView @JvmOverloads constructor(
         val message = ChatMessage(messageText, ChatMessage.Type.RECEIVED)
         chatAdapter.addMessage(message)
         recyclerView.scrollToPosition(chatAdapter.itemCount - 1)
+    }
+
+    /**
+     * Adds a set of predefined questions and answers.
+     * @param sampleQuestions The sample questions to add.
+     */
+    fun addSampleQuestions(sampleQuestions: SampleQuestions) {
+        for (data in sampleQuestions.chatbotData) {
+            predefinedQuestions[data.question] = data.answer
+        }
     }
 
     /**
