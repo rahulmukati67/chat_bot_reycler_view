@@ -46,7 +46,7 @@ class ChatBotRecyclerView @JvmOverloads constructor(
 
         // Handle send button click
         buttonSend.setOnClickListener {
-            sendMessage("")
+            sendMessage(null)
         }
 
         // Optional: Disable send button when input is empty
@@ -79,22 +79,24 @@ class ChatBotRecyclerView @JvmOverloads constructor(
     /**
      * Sends a message typed by the user.
      */
-    fun sendMessage(messageText: String) {
+    fun sendMessage(messageText: String?) {
 
         val messageTextFromTextView = editTextMessage.text.toString().trim()
         if (messageTextFromTextView.isNotEmpty()) {
-            val message = ChatMessage(messageText, ChatMessage.Type.SENT)
+            val message = ChatMessage(messageTextFromTextView, ChatMessage.Type.SENT)
             chatAdapter.addMessage(message)
             recyclerView.scrollToPosition(chatAdapter.itemCount - 1)
             editTextMessage.text.clear()
 
             // Notify listener for response
-            messageReceivedListener?.onMessageSent(messageText)
-        } else if (messageText.isNotEmpty()) {
-            val message = ChatMessage(messageText, ChatMessage.Type.SENT)
-            chatAdapter.addMessage(message)
-            recyclerView.scrollToPosition(chatAdapter.itemCount - 1)
-            editTextMessage.text.clear()
+            messageReceivedListener?.onMessageSent(messageTextFromTextView)
+        } else if (messageText != null) {
+            if (messageText.isNotEmpty()) {
+                val message = ChatMessage(messageText, ChatMessage.Type.SENT)
+                chatAdapter.addMessage(message)
+                recyclerView.scrollToPosition(chatAdapter.itemCount - 1)
+                editTextMessage.text.clear()
+            }
         }
     }
 
