@@ -4,9 +4,11 @@ import android.content.Context
 import android.os.Looper
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import androidx.core.widget.NestedScrollView
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -105,6 +107,8 @@ class ChatBotRecyclerView @JvmOverloads constructor(
     fun receiveMessage(messageText: String) {
         val message = ChatMessage(messageText, ChatMessage.Type.RECEIVED)
         val handler = android.os.Handler(Looper.getMainLooper())
+
+        findViewById<ProgressBar>(R.id.dot_progress_loader).visibility = View.VISIBLE
         handler.postDelayed({
             chatAdapter.addMessage(message)
             recyclerView.scrollToPosition(chatAdapter.itemCount - 1)
@@ -113,8 +117,10 @@ class ChatBotRecyclerView @JvmOverloads constructor(
                     0,
                     recyclerView.bottom
                 )
+                findViewById<ProgressBar>(R.id.dot_progress_loader).visibility = View.GONE
             }
         }, 2000)
+
     }
 
 

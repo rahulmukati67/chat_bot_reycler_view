@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rvParentNestedScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/rvParentNestedScrollView"
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,10 +33,10 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="20dp"
+            android:layout_marginBottom="80dp"
             android:clipToPadding="true"
             android:nestedScrollingEnabled="true"
             android:padding="8dp"
-            android:layout_marginBottom="80dp"
             app:layout_constraintBottom_toTopOf="@+id/rvChatMessage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -49,9 +49,20 @@
             android:clipToPadding="true"
             android:nestedScrollingEnabled="true"
             android:padding="8dp"
-            app:layout_constraintBottom_toTopOf="@id/llSendMessage"
+            app:layout_constraintBottom_toTopOf="@id/dot_progress_loader"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/dot_progress_loader"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:visibility="gone"
+            android:indeterminateDrawable="@drawable/dot_progress_loader"
+            app:layout_constraintBottom_toTopOf="@id/llSendMessage"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <!-- Send Message Layout -->
         <LinearLayout
             android:id="@+id/llSendMessage"
