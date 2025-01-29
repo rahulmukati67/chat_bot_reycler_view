@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/rvParentNestedScrollView"
     android:fillViewport="true">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -15,36 +17,41 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
-            android:layout_marginBottom="20dp"
             android:gravity="center"
             android:text="Hi there👋\nHow can I help?"
+            android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="36sp"
-            android:textAlignment="center" />
+            app:layout_constraintBottom_toTopOf="@id/rvPredefinedQuestion"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- Predefined Questions RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvPredefinedQuestion"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tvHeader"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
             android:clipToPadding="true"
-            android:nestedScrollingEnabled="false"
-            android:overScrollMode="never"
-            android:padding="8dp" />
+            android:nestedScrollingEnabled="true"
+            android:padding="8dp"
+            android:layout_marginBottom="80dp"
+            app:layout_constraintBottom_toTopOf="@+id/rvChatMessage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <!-- Chat Messages RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvChatMessage"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_below="@id/rvPredefinedQuestion"
-            android:layout_above="@id/llSendMessage"
+            android:layout_height="wrap_content"
             android:clipToPadding="true"
-            android:nestedScrollingEnabled="false"
-            android:overScrollMode="never"
-            android:padding="8dp" />
-
+            android:nestedScrollingEnabled="true"
+            android:padding="8dp"
+            app:layout_constraintBottom_toTopOf="@id/llSendMessage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
         <!-- Send Message Layout -->
         <LinearLayout
             android:id="@+id/llSendMessage"
@@ -52,7 +59,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal"
-            android:padding="8dp">
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <EditText
                 android:id="@+id/etMessage"
@@ -75,6 +85,6 @@
                 android:src="@drawable/baseline_send_24" />
         </LinearLayout>
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

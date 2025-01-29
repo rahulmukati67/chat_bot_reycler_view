@@ -1,11 +1,13 @@
 package com.example.chat_bot_recyclerview
 
 import android.content.Context
+import android.os.Looper
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import androidx.core.widget.NestedScrollView
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -85,6 +87,12 @@ class ChatBotRecyclerView @JvmOverloads constructor(
                 val message = ChatMessage(messageText, ChatMessage.Type.SENT)
                 chatAdapter.addMessage(message)
                 recyclerView.scrollToPosition(chatAdapter.itemCount - 1)
+                findViewById<NestedScrollView>(R.id.rvParentNestedScrollView).post {
+                    findViewById<NestedScrollView>(R.id.rvParentNestedScrollView).scrollTo(
+                        0,
+                        recyclerView.bottom
+                    )
+                }
                 editTextMessage.text.clear()
             }
         }
@@ -96,9 +104,19 @@ class ChatBotRecyclerView @JvmOverloads constructor(
      */
     fun receiveMessage(messageText: String) {
         val message = ChatMessage(messageText, ChatMessage.Type.RECEIVED)
-        chatAdapter.addMessage(message)
-        recyclerView.scrollToPosition(chatAdapter.itemCount - 1)
+        val handler = android.os.Handler(Looper.getMainLooper())
+        handler.postDelayed({
+            chatAdapter.addMessage(message)
+            recyclerView.scrollToPosition(chatAdapter.itemCount - 1)
+            findViewById<NestedScrollView>(R.id.rvParentNestedScrollView).post {
+                findViewById<NestedScrollView>(R.id.rvParentNestedScrollView).scrollTo(
+                    0,
+                    recyclerView.bottom
+                )
+            }
+        }, 2000)
     }
+
 
     /**
      * Adds a set of predefined questions and answers.
