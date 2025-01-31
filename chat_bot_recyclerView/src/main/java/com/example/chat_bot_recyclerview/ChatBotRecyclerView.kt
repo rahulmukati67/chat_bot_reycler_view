@@ -58,6 +58,8 @@ class ChatBotRecyclerView @JvmOverloads constructor(
             buttonSend.isEnabled = !text.isNullOrBlank()
         }
 
+        
+
         // Set a default message received listener (simple echo)
         setOnMessageReceivedListener(object : OnMessageReceivedListener {
             override fun onMessageSent(message: String) {
