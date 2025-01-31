@@ -22,6 +22,11 @@ class MainActivity : AppCompatActivity() {
             )
         )
         chatBotRecyclerView.addSampleQuestions(sampleQuestions)
+        chatBotRecyclerView.setChatThemeColors(
+            sendButtonColor = R.color.black,
+            recievedMessageTextColor= com.example.chat_bot_recyclerview.R.color.black
+        )
+
 
 //        chatBotRecyclerView.setOnMessageReceivedListener(object : ChatBotRecyclerView.OnMessageReceivedListener {
 //            override fun onMessageSent(message: String) {

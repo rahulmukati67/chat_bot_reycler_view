@@ -8,4 +8,7 @@
     <color name="gray">#4B4A4A</color>
     <color name="pink">#E91E63</color>
     <color name="light_blue">#E4EEFB</color>
+    <color name="green">#00FF00</color>
+    <color name="red">#FF0000</color>
+
 </resources>

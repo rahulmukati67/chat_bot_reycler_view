@@ -1,6 +1,7 @@
 package com.example.chat_bot_recyclerview
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.os.Looper
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -22,7 +23,7 @@ class ChatBotRecyclerView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : LinearLayout(context, attrs, defStyleAttr) {
+) : LinearLayout(context, attrs, defStyleAttr), ChatAdapter.ChatAdapterCallback {
 
     private val recyclerView: RecyclerView
     private val editTextMessage: EditText
@@ -42,7 +43,7 @@ class ChatBotRecyclerView @JvmOverloads constructor(
         editTextMessage = findViewById(R.id.etMessage)
         buttonSend = findViewById(R.id.btnSendMessage)
 
-        chatAdapter = ChatAdapter(chatMessages)
+        chatAdapter = ChatAdapter(chatMessages, this)
         recyclerView.layoutManager = LinearLayoutManager(context).apply {
             stackFromEnd = true
         }
@@ -58,7 +59,6 @@ class ChatBotRecyclerView @JvmOverloads constructor(
             buttonSend.isEnabled = !text.isNullOrBlank()
         }
 
-        
 
         // Set a default message received listener (simple echo)
         setOnMessageReceivedListener(object : OnMessageReceivedListener {
@@ -170,5 +170,32 @@ class ChatBotRecyclerView @JvmOverloads constructor(
      */
     interface OnMessageReceivedListener {
         fun onMessageSent(message: String)
+    }
+
+    fun setChatThemeColors(
+        backgroundColor: Int? = null,
+        sendButtonColor: Int? = null,
+        recievedMessageTextColor: Int? = null
+    ) {
+        backgroundColor?.let {
+            findViewById<NestedScrollView>(R.id.rvParentNestedScrollView).setBackgroundColor(
+                backgroundColor
+            )
+        }
+        sendButtonColor?.let {
+            findViewById<ImageButton>(R.id.btnSendMessage).backgroundTintList =
+                ColorStateList.valueOf(sendButtonColor)
+        }
+        recievedMessageTextColor?.let {
+            chatAdapter.setReceivedMessageTextColor(recievedMessageTextColor)
+        }
+    }
+
+
+    override fun onThumbsUpClicked(position: Int, message: ChatMessage) {
+
+    }
+
+    override fun onThumbsDownClicked(position: Int, message: ChatMessage) {
     }
 }
