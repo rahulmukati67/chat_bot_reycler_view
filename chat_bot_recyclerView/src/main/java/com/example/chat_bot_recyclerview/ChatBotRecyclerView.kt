@@ -123,6 +123,7 @@ class ChatBotRecyclerView @JvmOverloads constructor(
             }
         }, 2000)
 
+
     }
 
 

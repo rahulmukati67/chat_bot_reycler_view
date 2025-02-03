@@ -23,17 +23,15 @@ class MainActivity : AppCompatActivity() {
         )
         chatBotRecyclerView.addSampleQuestions(sampleQuestions)
         chatBotRecyclerView.setChatThemeColors(
-            sendButtonColor = R.color.black,
-            recievedMessageTextColor= com.example.chat_bot_recyclerview.R.color.black
+//            sendButtonColor = R.color.black,
+//            recievedMessageTextColor= com.example.chat_bot_recyclerview.R.color.black
         )
 
 
-//        chatBotRecyclerView.setOnMessageReceivedListener(object : ChatBotRecyclerView.OnMessageReceivedListener {
-//            override fun onMessageSent(message: String) {
-//                // Handle message sent, e.g., send to chatbot API and receive response
-//                // For demonstration, we have an echo response
-//                // To customize, override the default behavior or set a different listener
-//            }
-//        })
+        chatBotRecyclerView.setOnMessageReceivedListener(object : ChatBotRecyclerView.OnMessageReceivedListener {
+            override fun onMessageSent(message: String) {
+                chatBotRecyclerView.receiveMessage("Main Activity: $message")
+            }
+        })
     }
 }
