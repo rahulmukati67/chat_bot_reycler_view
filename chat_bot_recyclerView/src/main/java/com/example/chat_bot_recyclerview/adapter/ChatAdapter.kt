@@ -7,12 +7,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.chat_bot_recyclerview.ChatBotRecyclerView
 import com.example.chat_bot_recyclerview.R
 import com.example.chat_bot_recyclerview.model.ChatMessage
 
 
 class ChatAdapter(
-    private val chatMessages: MutableList<ChatMessage>, private val callback: ChatAdapterCallback
+    private val chatMessages: MutableList<ChatMessage>,
+    var thumbsActionListener: ChatBotRecyclerView.ThumbsActionListener? // This needs to be stored and used correctly
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var receivedMessageTextColor: Int? = null
@@ -45,7 +47,7 @@ class ChatAdapter(
             VIEW_TYPE_RECEIVED -> {
                 val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.view_chat_item_received, parent, false)
-                ReceivedMessageViewHolder(view, callback)
+                ReceivedMessageViewHolder(view, thumbsActionListener)
             }
 
             else -> throw IllegalArgumentException("Unknown view type: $viewType")
@@ -77,7 +79,10 @@ class ChatAdapter(
     }
 
     // ViewHolder for Received Messages
-    class ReceivedMessageViewHolder(itemView: View, private val callback: ChatAdapterCallback) :
+    class ReceivedMessageViewHolder(
+        itemView: View,
+        private val thumbsActionListener: ChatBotRecyclerView.ThumbsActionListener?
+    ) :
         RecyclerView.ViewHolder(itemView) {
         private val messageBody: TextView = itemView.findViewById(R.id.tvMessageReceived)
         private val thumbsUp: ImageView = itemView.findViewById(R.id.imgThumbsUp)
@@ -88,26 +93,23 @@ class ChatAdapter(
             messageBody.text = message.message
             textColor?.let { messageBody.setTextColor(it) } // Apply received message text color
 
-            // Set click listeners for thumbs up/down
+
             thumbsUp.setOnClickListener {
                 thumbsUp.setColorFilter(ContextCompat.getColor(itemView.context, R.color.green))
                 thumbsDown.clearColorFilter()
-                callback.onThumbsUpClicked(adapterPosition, message)
+                thumbsActionListener?.onThumbsUpClicked(message)
             }
 
             thumbsDown.setOnClickListener {
                 thumbsDown.setColorFilter(ContextCompat.getColor(itemView.context, R.color.red))
                 thumbsUp.clearColorFilter()
-                callback.onThumbsDownClicked(adapterPosition, message)
+                thumbsActionListener?.onThumbsDownClicked(message)
             }
 
         }
     }
 
-    interface ChatAdapterCallback {
-        fun onThumbsUpClicked(position: Int, message: ChatMessage)
-        fun onThumbsDownClicked(position: Int, message: ChatMessage)
-    }
+
 
 
 }

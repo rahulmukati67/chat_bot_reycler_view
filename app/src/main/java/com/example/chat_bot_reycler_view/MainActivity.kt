@@ -1,9 +1,11 @@
 package com.example.chat_bot_reycler_view
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chat_bot_recyclerview.ChatBotRecyclerView
+import com.example.chat_bot_recyclerview.model.ChatMessage
 import com.example.chat_bot_recyclerview.model.ChatbotData
 import com.example.chat_bot_recyclerview.model.Message
 import com.example.chat_bot_recyclerview.model.SampleQuestions
@@ -70,7 +72,6 @@ class MainActivity : AppCompatActivity() {
         )
         chatBotRecyclerView.addSampleQuestions(sampleQuestions)
 
-
         chatBotRecyclerView.setChatThemeColors(
 //            sendButtonColor = R.color.black,
 //            recievedMessageTextColor= com.example.chat_bot_recyclerview.R.color.black
@@ -83,5 +84,17 @@ class MainActivity : AppCompatActivity() {
                 chatBotRecyclerView.receiveMessage("Main Activity: $message")
             }
         })
+
+        chatBotRecyclerView.setThumbsActionListener(object :
+            ChatBotRecyclerView.ThumbsActionListener {
+            override fun onThumbsUpClicked(message: ChatMessage) {
+                Toast.makeText(this@MainActivity, "Liked", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onThumbsDownClicked(message: ChatMessage) {
+                Toast.makeText(this@MainActivity, "Disliked:", Toast.LENGTH_SHORT).show()
+            }
+        })
+
     }
 }

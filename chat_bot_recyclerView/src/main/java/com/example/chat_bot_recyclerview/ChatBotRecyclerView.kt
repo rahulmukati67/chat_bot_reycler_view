@@ -23,7 +23,7 @@ class ChatBotRecyclerView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : LinearLayout(context, attrs, defStyleAttr), ChatAdapter.ChatAdapterCallback {
+) : LinearLayout(context, attrs, defStyleAttr) {
 
     private val recyclerView: RecyclerView
     private val editTextMessage: EditText
@@ -31,6 +31,12 @@ class ChatBotRecyclerView @JvmOverloads constructor(
     private val chatAdapter: ChatAdapter
     private val chatMessages: MutableList<ChatMessage> = mutableListOf()
 
+    private var thumbsActionListener: ThumbsActionListener? = null
+
+    interface ThumbsActionListener {
+        fun onThumbsUpClicked(message: ChatMessage)
+        fun onThumbsDownClicked(message: ChatMessage)
+    }
 
     // Listener for handling received messages
     private var messageReceivedListener: OnMessageReceivedListener? = null
@@ -43,7 +49,7 @@ class ChatBotRecyclerView @JvmOverloads constructor(
         editTextMessage = findViewById(R.id.etMessage)
         buttonSend = findViewById(R.id.btnSendMessage)
 
-        chatAdapter = ChatAdapter(chatMessages, this)
+        chatAdapter = ChatAdapter(chatMessages, null)
         recyclerView.layoutManager = LinearLayoutManager(context).apply {
             stackFromEnd = true
         }
@@ -161,11 +167,12 @@ class ChatBotRecyclerView @JvmOverloads constructor(
         if (relatedQuestions.chatbotData.isEmpty()) {
             findViewById<RecyclerView>(R.id.rvRelatedQuestions).visibility = View.GONE
         } else {
-            val predefinedAdapter = PredefinedQuestionsAdapter(relatedQuestions) { selectedQuestion ->
-                sendMessage(selectedQuestion)
-                receiveMessage(relatedQuestions.chatbotData.find { it.question == selectedQuestion }?.answer?.text.orEmpty())
-                findViewById<RecyclerView>(R.id.rvRelatedQuestions).visibility = View.GONE
-            }
+            val predefinedAdapter =
+                PredefinedQuestionsAdapter(relatedQuestions) { selectedQuestion ->
+                    sendMessage(selectedQuestion)
+                    receiveMessage(relatedQuestions.chatbotData.find { it.question == selectedQuestion }?.answer?.text.orEmpty())
+                    findViewById<RecyclerView>(R.id.rvRelatedQuestions).visibility = View.GONE
+                }
             setupRecyclerView(R.id.rvRelatedQuestions, predefinedAdapter)
         }
     }
@@ -224,11 +231,11 @@ class ChatBotRecyclerView @JvmOverloads constructor(
         }
     }
 
-
-    override fun onThumbsUpClicked(position: Int, message: ChatMessage) {
+    fun setThumbsActionListener(listener: ThumbsActionListener) {
+        this.thumbsActionListener = listener
+        chatAdapter.thumbsActionListener =
+            listener  // Ensure the adapter receives the updated listener
 
     }
 
-    override fun onThumbsDownClicked(position: Int, message: ChatMessage) {
-    }
 }
