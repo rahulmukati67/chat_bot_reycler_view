@@ -77,13 +77,14 @@ class MainActivity : AppCompatActivity() {
 //            recievedMessageTextColor= com.example.chat_bot_recyclerview.R.color.black
         )
 
-
-        chatBotRecyclerView.setOnMessageReceivedListener(object :
-            ChatBotRecyclerView.OnMessageReceivedListener {
-            override fun onMessageSent(message: String) {
-                chatBotRecyclerView.receiveMessage("Main Activity: $message")
-            }
-        })
+//
+//        chatBotRecyclerView.setOnMessageReceivedListener(object :
+//            ChatBotRecyclerView.OnMessageReceivedListener {
+//            override fun onMessageSent(message: String) {
+//                chatBotRecyclerView.receiveMessage("Main Activity: $message")
+//
+//            }
+//        })
 
         chatBotRecyclerView.setThumbsActionListener(object :
             ChatBotRecyclerView.ThumbsActionListener {

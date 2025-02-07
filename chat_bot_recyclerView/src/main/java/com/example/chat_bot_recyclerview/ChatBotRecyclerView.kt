@@ -73,7 +73,7 @@ class ChatBotRecyclerView @JvmOverloads constructor(
                 recyclerView.postDelayed({
                     val response = generateResponse(message)
                     receiveMessage(response)
-                }, 1000) // 1-second delay
+                }, 0) //  delay
             }
         })
     }
@@ -127,7 +127,7 @@ class ChatBotRecyclerView @JvmOverloads constructor(
                 )
                 findViewById<ProgressBar>(R.id.dot_progress_loader).visibility = View.GONE
             }
-        }, 0)
+        }, 3000)
 
 
     }
