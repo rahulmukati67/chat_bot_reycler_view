@@ -50,17 +50,33 @@
             android:clipToPadding="true"
             android:nestedScrollingEnabled="true"
             android:padding="8dp"
+            app:layout_constraintBottom_toTopOf="@id/rvRelatedQuestions"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- Predefined Questions RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvRelatedQuestions"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp"
+            android:clipToPadding="true"
+            android:nestedScrollingEnabled="true"
+            android:padding="8dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/dot_progress_loader"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
 
         <ProgressBar
             android:id="@+id/dot_progress_loader"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:visibility="gone"
             android:indeterminateDrawable="@drawable/dot_progress_loader"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/llSendMessage"
             app:layout_constraintStart_toStartOf="parent" />
 

@@ -121,7 +121,7 @@ class ChatBotRecyclerView @JvmOverloads constructor(
                 )
                 findViewById<ProgressBar>(R.id.dot_progress_loader).visibility = View.GONE
             }
-        }, 2000)
+        }, 0)
 
 
     }
@@ -132,21 +132,53 @@ class ChatBotRecyclerView @JvmOverloads constructor(
      * @param sampleQuestions The sample questions to add.
      */
     fun addSampleQuestions(sampleQuestions: SampleQuestions) {
+        if (sampleQuestions.chatbotData.isEmpty()) {
+            findViewById<RecyclerView>(R.id.rvPredefinedQuestion).visibility = View.GONE
+            return
+        }
 
-        if (sampleQuestions.chatbotData.isNotEmpty()) {
-            val predefinedAdapter =
-                PredefinedQuestionsAdapter(sampleQuestions) { selectedQuestion ->
-                    // Handle question click
-                    sendMessage(selectedQuestion)
-                    receiveMessage("${sampleQuestions.chatbotData.find { it.question == selectedQuestion }?.answer}")
-                }
+        val predefinedAdapter = PredefinedQuestionsAdapter(sampleQuestions) { selectedQuestion ->
+            handleSelectedQuestion(selectedQuestion, sampleQuestions)
+        }
 
-            val rvPredefinedQuestions = findViewById<RecyclerView>(R.id.rvPredefinedQuestion)
+        setupRecyclerView(R.id.rvPredefinedQuestion, predefinedAdapter)
+    }
 
-            rvPredefinedQuestions.layoutManager = LinearLayoutManager(context)
-            rvPredefinedQuestions.adapter = predefinedAdapter
+    private fun handleSelectedQuestion(selectedQuestion: String, sampleQuestions: SampleQuestions) {
+        sendMessage(selectedQuestion)
+        val answer = sampleQuestions.chatbotData.find { it.question == selectedQuestion }?.answer
+        answer?.text?.let { receiveMessage(it) }
+
+        // Update or hide the RecyclerView based on the presence of related questions
+        if (answer?.related_questions?.chatbotData?.isNotEmpty() == true) {
+            updateRelatedQuestionsRecyclerView(answer.related_questions)
+        } else {
+            findViewById<RecyclerView>(R.id.rvRelatedQuestions).visibility = View.GONE
         }
     }
+
+    private fun updateRelatedQuestionsRecyclerView(relatedQuestions: SampleQuestions) {
+        if (relatedQuestions.chatbotData.isEmpty()) {
+            findViewById<RecyclerView>(R.id.rvRelatedQuestions).visibility = View.GONE
+        } else {
+            val predefinedAdapter = PredefinedQuestionsAdapter(relatedQuestions) { selectedQuestion ->
+                sendMessage(selectedQuestion)
+                receiveMessage(relatedQuestions.chatbotData.find { it.question == selectedQuestion }?.answer?.text.orEmpty())
+                findViewById<RecyclerView>(R.id.rvRelatedQuestions).visibility = View.GONE
+            }
+            setupRecyclerView(R.id.rvRelatedQuestions, predefinedAdapter)
+        }
+    }
+
+
+    private fun setupRecyclerView(recyclerViewId: Int, adapter: RecyclerView.Adapter<*>) {
+        findViewById<RecyclerView>(recyclerViewId).apply {
+            visibility = View.VISIBLE
+            layoutManager = LinearLayoutManager(context)
+            this.adapter = adapter
+        }
+    }
+
 
     /**
      * Sets a listener to handle message sending events.

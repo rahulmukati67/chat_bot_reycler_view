@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chat_bot_recyclerview.R
-import com.example.chat_bot_recyclerview.model.ChatbotData
 import com.example.chat_bot_recyclerview.model.SampleQuestions
 
 class PredefinedQuestionsAdapter(

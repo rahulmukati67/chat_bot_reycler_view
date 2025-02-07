@@ -13,8 +13,7 @@ import com.example.chat_bot_recyclerview.model.ChatMessage
 
 class ChatAdapter(
     private val chatMessages: MutableList<ChatMessage>, private val callback: ChatAdapterCallback
-) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var receivedMessageTextColor: Int? = null
 
