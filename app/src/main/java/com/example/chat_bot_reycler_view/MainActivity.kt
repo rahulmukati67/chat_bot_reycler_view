@@ -76,9 +76,9 @@ class MainActivity : AppCompatActivity() {
 
         chatBotRecyclerView.setChatThemeColors(
 //            sendButtonColor = R.color.black,
-//            recievedMessageTextColor= com.example.chat_bot_recyclerview.R.color.black
+//            receivedMessageTextColor= com.example.chat_bot_recyclerview.R.color.black
         )
-        
+
         chatBotRecyclerView.setOnMicClickListener(object : ChatBotRecyclerView.OnMicClickListener {
             override fun onMicClicked() {
                 captureVoice()

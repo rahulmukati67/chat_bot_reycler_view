@@ -116,6 +116,7 @@ class ChatBotRecyclerView @JvmOverloads constructor(
             recyclerView.scrollToPosition(chatAdapter.itemCount - 1)
             editTextMessage.text.clear()
             // Notify listener for response
+            messageReceivedListener?.onMessageSent(messageTextFromTextView)
         } else if (messageText != null) {
             if (messageText.isNotEmpty()) {
                 val message = ChatMessage(messageText, ChatMessage.Type.SENT)
