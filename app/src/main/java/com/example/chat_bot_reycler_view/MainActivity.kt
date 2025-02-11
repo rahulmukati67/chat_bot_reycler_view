@@ -3,7 +3,6 @@ package com.example.chat_bot_reycler_view
 import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -124,6 +123,7 @@ class MainActivity : AppCompatActivity() {
                     data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS) as ArrayList<String>
                 outputText = res[0] // Capture the first result as outputText
                 chatBotRecyclerView.sendMessage("Voice Text: $outputText")
+                chatBotRecyclerView.receiveMessage(outputText)
             }
         }
     }
