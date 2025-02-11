@@ -108,17 +108,14 @@ class ChatBotRecyclerView @JvmOverloads constructor(
     /**
      * Sends a message typed by the user.
      */
-    private fun sendMessage(messageText: String?) {
+    fun sendMessage(messageText: String?) {
         val messageTextFromTextView = editTextMessage.text.toString().trim()
         if (messageTextFromTextView.isNotEmpty()) {
             val message = ChatMessage(messageTextFromTextView, ChatMessage.Type.SENT)
             chatAdapter.addMessage(message)
             recyclerView.scrollToPosition(chatAdapter.itemCount - 1)
             editTextMessage.text.clear()
-
             // Notify listener for response
-            messageReceivedListener?.onMessageSent(messageTextFromTextView)
-
         } else if (messageText != null) {
             if (messageText.isNotEmpty()) {
                 val message = ChatMessage(messageText, ChatMessage.Type.SENT)
@@ -218,7 +215,7 @@ class ChatBotRecyclerView @JvmOverloads constructor(
      * Sets a listener to handle message sending events.
      * @param listener The listener to set.
      */
-    fun setOnMessageReceivedListener(listener: OnMessageReceivedListener) {
+    private fun setOnMessageReceivedListener(listener: OnMessageReceivedListener) {
         this.messageReceivedListener = listener
     }
 
@@ -244,7 +241,7 @@ class ChatBotRecyclerView @JvmOverloads constructor(
     fun setChatThemeColors(
         backgroundColor: Int? = null,
         sendButtonColor: Int? = null,
-        recievedMessageTextColor: Int? = null
+        receivedMessageTextColor: Int? = null
     ) {
         backgroundColor?.let {
             findViewById<NestedScrollView>(R.id.rvParentNestedScrollView).setBackgroundColor(
@@ -255,8 +252,8 @@ class ChatBotRecyclerView @JvmOverloads constructor(
             findViewById<ImageButton>(R.id.btnSendMessage).backgroundTintList =
                 ColorStateList.valueOf(sendButtonColor)
         }
-        recievedMessageTextColor?.let {
-            chatAdapter.setReceivedMessageTextColor(recievedMessageTextColor)
+        receivedMessageTextColor?.let {
+            chatAdapter.setReceivedMessageTextColor(receivedMessageTextColor)
         }
     }
 
