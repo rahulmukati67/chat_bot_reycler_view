@@ -28,18 +28,33 @@ class ChatBotRecyclerView @JvmOverloads constructor(
     private val recyclerView: RecyclerView
     private val editTextMessage: EditText
     private val buttonSend: ImageButton
+    private val btnMic: ImageButton
     private val chatAdapter: ChatAdapter
     private val chatMessages: MutableList<ChatMessage> = mutableListOf()
 
-    private var thumbsActionListener: ThumbsActionListener? = null
 
     interface ThumbsActionListener {
         fun onThumbsUpClicked(message: ChatMessage)
         fun onThumbsDownClicked(message: ChatMessage)
     }
 
+    /**
+     * Interface for receiving message send events.
+     */
+    interface OnMessageReceivedListener {
+        fun onMessageSent(message: String)
+    }
+
+    /** Interface for receiving mic events.*/
+    interface OnMicClickListener {
+        fun onMicClicked()
+    }
+
     // Listener for handling received messages
     private var messageReceivedListener: OnMessageReceivedListener? = null
+    private var micActionListener: OnMicClickListener? = null
+    private var thumbsActionListener: ThumbsActionListener? = null
+
 
     init {
         orientation = VERTICAL
@@ -48,6 +63,7 @@ class ChatBotRecyclerView @JvmOverloads constructor(
         recyclerView = findViewById(R.id.rvChatMessage)
         editTextMessage = findViewById(R.id.etMessage)
         buttonSend = findViewById(R.id.btnSendMessage)
+        btnMic = findViewById(R.id.btnMic)
 
         chatAdapter = ChatAdapter(chatMessages, null)
         recyclerView.layoutManager = LinearLayoutManager(context).apply {
@@ -58,6 +74,9 @@ class ChatBotRecyclerView @JvmOverloads constructor(
         // Handle send button click
         buttonSend.setOnClickListener {
             sendMessage(null)
+        }
+        btnMic.setOnClickListener {
+            micActionListener?.onMicClicked()
         }
 
         // Optional: Disable send button when input is empty
@@ -76,13 +95,20 @@ class ChatBotRecyclerView @JvmOverloads constructor(
                 }, 0) //  delay
             }
         })
+
+//        setOnMicClickListener(object : OnMicClickListener {
+//            override fun onMicClicked() {
+//
+//            }
+//        })
+
+
     }
 
     /**
      * Sends a message typed by the user.
      */
-    fun sendMessage(messageText: String?) {
-
+    private fun sendMessage(messageText: String?) {
         val messageTextFromTextView = editTextMessage.text.toString().trim()
         if (messageTextFromTextView.isNotEmpty()) {
             val message = ChatMessage(messageTextFromTextView, ChatMessage.Type.SENT)
@@ -92,6 +118,7 @@ class ChatBotRecyclerView @JvmOverloads constructor(
 
             // Notify listener for response
             messageReceivedListener?.onMessageSent(messageTextFromTextView)
+
         } else if (messageText != null) {
             if (messageText.isNotEmpty()) {
                 val message = ChatMessage(messageText, ChatMessage.Type.SENT)
@@ -196,6 +223,14 @@ class ChatBotRecyclerView @JvmOverloads constructor(
     }
 
     /**
+     * Sets a listener to handle message sending events.
+     * @param listener The listener to set.
+     */
+    fun setOnMicClickListener(listener: OnMicClickListener) {
+        this.micActionListener = listener
+    }
+
+    /**
      * Generates a simple echo response.
      * @param message The received message.
      * @return The response message.
@@ -205,12 +240,6 @@ class ChatBotRecyclerView @JvmOverloads constructor(
         return "Echo: $message"
     }
 
-    /**
-     * Interface for receiving message send events.
-     */
-    interface OnMessageReceivedListener {
-        fun onMessageSent(message: String)
-    }
 
     fun setChatThemeColors(
         backgroundColor: Int? = null,

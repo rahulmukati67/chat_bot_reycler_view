@@ -77,25 +77,33 @@ class MainActivity : AppCompatActivity() {
 //            recievedMessageTextColor= com.example.chat_bot_recyclerview.R.color.black
         )
 
-//
-//        chatBotRecyclerView.setOnMessageReceivedListener(object :
-//            ChatBotRecyclerView.OnMessageReceivedListener {
-//            override fun onMessageSent(message: String) {
-//                chatBotRecyclerView.receiveMessage("Main Activity: $message")
-//
-//            }
-//        })
 
-        chatBotRecyclerView.setThumbsActionListener(object :
-            ChatBotRecyclerView.ThumbsActionListener {
-            override fun onThumbsUpClicked(message: ChatMessage) {
-                Toast.makeText(this@MainActivity, "Liked", Toast.LENGTH_SHORT).show()
-            }
+        chatBotRecyclerView.setOnMessageReceivedListener(object :
+            ChatBotRecyclerView.OnMessageReceivedListener {
+            override fun onMessageSent(message: String) {
+                chatBotRecyclerView.receiveMessage("Main Activity: $message")
 
-            override fun onThumbsDownClicked(message: ChatMessage) {
-                Toast.makeText(this@MainActivity, "Disliked:", Toast.LENGTH_SHORT).show()
             }
         })
+
+        chatBotRecyclerView.setOnMicClickListener(object :
+            ChatBotRecyclerView.OnMicClickListener {
+            override fun onMicClicked() {
+                Toast.makeText(this@MainActivity, "Mic clicked", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        chatBotRecyclerView.setThumbsActionListener(
+            object :
+                ChatBotRecyclerView.ThumbsActionListener {
+                override fun onThumbsUpClicked(message: ChatMessage) {
+                    Toast.makeText(this@MainActivity, "Liked", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onThumbsDownClicked(message: ChatMessage) {
+                    Toast.makeText(this@MainActivity, "Disliked:", Toast.LENGTH_SHORT).show()
+                }
+            })
 
     }
 }
